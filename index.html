@@ -235,7 +235,7 @@
                const tempDiv = $('<div>').html(htmlContent);
                // Get the content of the <body> element
                tempDiv.find('img').remove();
-               const bodyContent = tempDiv.find('body').children().html();
+               const bodyContent = tempDiv.find('body').html();
                // Display the body content in the "output" div
                $('#article').html(bodyContent);
            },
