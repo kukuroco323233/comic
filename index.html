@@ -215,6 +215,17 @@
       }else{
          loadFile('./Book/500.html');
       }
+      $(document).on('keydown', function(e) {
+      // Check if the pressed key is the 'Enter' key (key code 13)
+      if (e.keyCode === 39) {
+         Next();
+        // Perform your desired action for the next key press here
+      }
+      if (e.keyCode === 37) {
+         Pre();
+        // Perform your desired action for the next key press here
+      }
+    });
    });
 
    function Next() {
