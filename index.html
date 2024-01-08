@@ -147,7 +147,7 @@
             </div>
             <div tabindex="0" id="bookRead" style="height: auto !important;">
                <main class="main" style="height: auto !important; min-height: 0px !important;">
-                  <div class="nh-read__pagination nh-read__pagination--top d-flex"><a class="nh-read__pagination--action d-flex align-items-center h6 mb-0 px-3 disabled"><i class="nh-icon icon-prev-2 mr-2"></i>Chương trước </a><a class="nh-read__pagination--action d-flex align-items-center justify-content-end h6 mb-0 ml-auto px-3"> Chương sau <i class="nh-icon icon-next-2 ml-2"></i></a></div>
+                  <div class="nh-read__pagination nh-read__pagination--top d-flex"><a class="nh-read__pagination--action d-flex align-items-center h6 mb-0 px-3 disabled" onclick="Pre()"><i class="nh-icon icon-prev-2 mr-2"></i>Chương trước </a><a class="nh-read__pagination--action d-flex align-items-center justify-content-end h6 mb-0 ml-auto px-3" onclick="Next()"> Chương sau <i class="nh-icon icon-next-2 ml-2"></i></a></div>
                   <div id="js-read-body" class="nh-read__body px-3" style="height: auto !important;">
                      <div class="h3 mb-3 font-weight-normal nh-read__title"> Chương 1: Bắt đầu còn phải chết </div>
                      <ul class="list-unstyled d-flex align-items-center flex-wrap mb-2">
@@ -164,12 +164,11 @@
                      <div id="js-read__content" class="nh-read__content post-body" style="font-size: 26px; font-family: 'Palatino Linotype'; margin: auto; line-height: 140%;">
                         <div id="article" class="c-c">
                         </div>
-                        <br><br>=============<br><br>Loạn thế khởi, hào kiệt phân tranh.Nơi máu anh hùng và lệ mỹ nhân hoà quyện vào nhau.Nhân quả và luân hồi đan xen tạo thành bánh xe vận mệnh.Giữa mộng và tỉnh, đúng và sai, đâu mới là con đường chân đạo.Tất cả chỉ có tại <a href="https://vtruyen.com/truyen/de-cuong-1" target="_blank"><strong class="text-muted">Đế Cuồng</strong></a><br><br>
-                     </div>
+                    </div>
                      <div class="nh-read__alert d-flex align-items-center mt-3"><i class="nh-icon icon-bell h6 mb-0 mr-3"></i> Cầu các loại đề cử... </div>
                      <div class="d-flex justify-content-center mt-5"><button data-toggle="modal" class="btn rounded-3 text-center px-3 mx-3 nh-read__button d-flex align-items-center flex-column"><i class="h4 nh-icon icon-star"></i></button><button data-toggle="modal" class="btn rounded-3 text-center px-3 mx-3 nh-read__button d-flex align-items-center flex-column"><i class="h4 nh-icon icon-flower"></i></button><button data-toggle="modal" class="btn rounded-3 text-center px-3 mx-3 nh-read__button d-flex align-items-center flex-column"><i class="h4 nh-icon icon-gift"></i></button></div>
                   </div>
-                  <div class="nh-read__pagination nh-read__pagination--bottom d-flex"><a class="nh-read__pagination--action d-flex align-items-center justify-content-center flex-fill h6 mb-0 px-2 disabled"><i class="nh-icon icon-prev-2 mr-2"></i>Chương trước </a><a data-toggle="modal" class="nh-read__pagination--report d-flex align-items-center justify-content-center h4 mb-0 px-3"><i class="nh-icon icon-alert"></i></a><a class="nh-read__pagination--action d-flex align-items-center justify-content-center flex-fill h6 mb-0 ml-auto px-2"> Chương sau <i class="nh-icon icon-next-2 ml-2"></i></a></div>
+                  <div class="nh-read__pagination nh-read__pagination--bottom d-flex"><a class="nh-read__pagination--action d-flex align-items-center justify-content-center flex-fill h6 mb-0 px-2 disabled" onclick="Pre()"><i class="nh-icon icon-prev-2 mr-2"></i>Chương trước </a><a data-toggle="modal" class="nh-read__pagination--report d-flex align-items-center justify-content-center h4 mb-0 px-3"><i class="nh-icon icon-alert"></i></a><a class="nh-read__pagination--action d-flex align-items-center justify-content-center flex-fill h6 mb-0 ml-auto px-2" onclick="Next()"> Chương sau <i class="nh-icon icon-next-2 ml-2"></i></a></div>
                   <!----><!----><!---->
                   <ul id="nh-read__menu" class="list-unstyled d-flex nh-read__menu m-0">
                      <li><a data-toggle="modal" class="d-flex align-items-center justify-content-center"><i class="nh-icon icon-menu"></i></a></li>
@@ -194,9 +193,38 @@
 
 <script>
    $(document).ready(function () {
-       loadFile('./Book/500.html');
+      var url = new URL(window.location.href);
+      var Id = url.searchParams.get("Id");
+      if(Id){
+         loadFile('./Book/'+Id+'.html');
+      }else{
+         loadFile('./Book/500.html');
+      }
    });
 
+   function Next() {
+      var url = new URL(window.location.href);
+      var Id = url.searchParams.get("Id");
+      if(Id){
+         url.searchParams.set("Id",parseInt(Id)+1);
+         window.location.href = url;
+      }else{
+         url.searchParams.set("Id",501);
+         window.location.href = url;
+      }
+
+   }
+   function Pre() {
+      var url = new URL(window.location.href);
+      var Id = url.searchParams.get("Id");
+      if(Id){
+         url.searchParams.set("Id",parseInt(Id)-1);
+         window.location.href = url;
+      }else{
+         url.searchParams.set("Id",500);
+         window.location.href = url;
+      }
+   }
    function loadFile(url) {
        $.ajax({
            url: url,
@@ -206,9 +234,10 @@
                // Create a temporary div element
                const tempDiv = $('<div>').html(htmlContent);
                // Get the content of the <body> element
-               const bodyContent = tempDiv.find('body').html();
+               tempDiv.find('img').remove();
+               const bodyContent = tempDiv.html();
                // Display the body content in the "output" div
-               $('#output').html(bodyContent);
+               $('#article').html(bodyContent);
            },
            error: function (error) {
                console.error('Error fetching the file:', error);
