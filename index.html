@@ -263,7 +263,7 @@
            dataType: 'html',
            success: function (htmlContent) {
                // Create a temporary div element
-               const tempDiv = $('<div>').html(htmlContent);
+               const tempDiv = $('<body>').html(htmlContent);
                // Get the content of the <body> element
                tempDiv.find('img').remove();
                const bodyContent = tempDiv.html();
